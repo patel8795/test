@@ -2,6 +2,7 @@ package com.bajajbikes.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bajajbikes.dto.EmployeeData;
 import com.bajajbikes.entities.Employee;
+import com.bajajbikes.service.EmailServices;
 import com.bajajbikes.service.EmployeeService;
+
 
 @Controller
 public class EmployeeController {
@@ -19,6 +22,9 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService saveEmp;
 	
+	@Autowired
+	private EmailServices emailserv;
+
 	@RequestMapping("/createEmployee")
 	public String vtewsOneEmployeePage() {
 		
@@ -28,6 +34,11 @@ public class EmployeeController {
 	@RequestMapping("/saveEmployee")
 	public String saveOneEmployee(@ModelAttribute("employee") Employee employee, ModelMap model) {
 		saveEmp.saveEmployee(employee);
+		
+		emailserv.sendMailWithAttachment("skpshravan787@gmail.com", "this is the email send", "java developer", 
+																"C:\\Users\\SKP\\Downloads\\link shravan1");
+			
+		 
 		model.addAttribute("msg", "Employee data is save!!");
 		return "create_employee";
 		
